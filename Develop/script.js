@@ -21,7 +21,7 @@ var randomizer = function (min, max) {
 
 // if/else function to keep previous settings but reask passLength should they mistype
 var getPassLength = function () {
-  debugger;
+  // debugger;
   var length = window.prompt("How long would you like the password to be? (8-128)");
 
   // parameters met, return value for passLength
