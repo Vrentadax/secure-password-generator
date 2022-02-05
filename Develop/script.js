@@ -1,18 +1,12 @@
 // Assignment code here
 
-// prompt for length of password 8-128
-// prompt for use of lc, uc, num, and/or spec char
-// validate "this will include xx characters, ok?"
-// generate password w/ criteria
-// write pw to page
-
 // character variables to draw from
 var letterLower = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var letterUpper = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 var number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 var specialChar = ["!", "#", "$", "%", "&", "(", ")", "*", "+", "/", "-", ":", ";", "<", ">", "=", "?", "@", "[", "]", "^", "_", "`", "{", "}", "|", "~"];
 
-// maths for picking randomized characters (+1 max as all references are indeces)
+// maths for picking randomized characters (+1 max as all references are arrays)
 var randomizer = function (min, max) {
   var value = Math.floor(Math.random() * (max - min) + min);
 
@@ -20,22 +14,20 @@ var randomizer = function (min, max) {
 }
 
 // if/else function to keep previous settings but reask passLength should they mistype
-var getPassLength = function () {
-  // debugger;
-  var length = window.prompt("How long would you like the password to be? (8-128)");
+var getPassLength = function (length = 0) {
+  length = window.prompt("How long would you like the password to be? (8-128)");
 
   // parameters met, return value for passLength
   if (length >= 8 && length <= 128) {
     window.alert("Great! We'll make sure the password is " + length + " characters in length!");
     console.log(length);
-
+    return length;
     // keep retrying until a vailid option is selected
   } else {
     window.alert("Oops! Looks like we didn't pick a valid option! Let's try this again.");
-    getPassLength();
+    // return value even if wrong
+    return getPassLength(length);
   }
-
-  return length;
 };
 
 // generate password function
@@ -87,9 +79,9 @@ var generatePassword = function () {
 
   // verify we're using at least one character type for generation
   if (upperConfirm || lowerConfirm || numberConfirm || specialConfirm) {
-    window.alert("Awesome! Let's get to generating!");
-    // debugger;
+    window.alert("Awesome! Let's get to generating!\n\nUppercase letters: " + upperConfirm + ".\nLowercase letters: " + lowerConfirm + ".\nNumbers: " + numberConfirm + ".\nSpecial characters: " + specialConfirm + ".\nLength: " + passLength + ".");
     var passwordGen = "";
+    // pick number between 1-4, verify if selected by user (true), true = randomize array item or false i-- to maintain pass length and try again for valid char type
     for (var i = 0; i < passLength; i++) {
       var charGenerator = randomizer(1, 5);
       switch (charGenerator) {
@@ -125,6 +117,7 @@ var generatePassword = function () {
 
     }
   } else {
+    // if all char types are false, kick user out and return 'undefined' allowing another attempt to generate.
     window.alert("Oops! Looks like we didn't pick any options to generate! Click 'Generate Password' to try again.");
   }
 
