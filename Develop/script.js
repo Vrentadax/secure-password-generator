@@ -21,19 +21,21 @@ var randomizer = function (min, max) {
 
 // if/else function to keep previous settings but reask passLength should they mistype
 var getPassLength = function () {
+  debugger;
   var length = window.prompt("How long would you like the password to be? (8-128)");
 
   // parameters met, return value for passLength
   if (length >= 8 && length <= 128) {
     window.alert("Great! We'll make sure the password is " + length + " characters in length!");
     console.log(length);
-    return length;
 
     // keep retrying until a vailid option is selected
   } else {
     window.alert("Oops! Looks like we didn't pick a valid option! Let's try this again.");
     getPassLength();
   }
+
+  return length;
 };
 
 // generate password function
@@ -86,12 +88,12 @@ var generatePassword = function () {
   // verify we're using at least one character type for generation
   if (upperConfirm || lowerConfirm || numberConfirm || specialConfirm) {
     window.alert("Awesome! Let's get to generating!");
+    // debugger;
     var passwordGen = "";
     for (var i = 0; i < passLength; i++) {
       var charGenerator = randomizer(1, 5);
       switch (charGenerator) {
         case 1:
-          console.log("Upper");
           if (upperConfirm) {
             passwordGen += letterUpper[randomizer(0, letterUpper.length)];
           } else {
@@ -99,14 +101,13 @@ var generatePassword = function () {
           }
           break;
         case 2:
-          console.log("lower");
           if (lowerConfirm) {
             passwordGen += letterLower[randomizer(0, letterLower.length)];
           } else {
             i--;
           }
+          break;
         case 3:
-          console.log("number");
           if (numberConfirm) {
             passwordGen += number[randomizer(0, number.length)];
           } else {
@@ -114,7 +115,6 @@ var generatePassword = function () {
           }
           break;
         case 4:
-          console.log("S. Char");
           if (specialConfirm) {
             passwordGen += specialChar[randomizer(0, number.length)];
           } else {
